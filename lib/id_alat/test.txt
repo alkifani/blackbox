@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:bb/menu_home/home_page.dart';
 
 class IdAlat extends StatefulWidget {
   static const routeName = "/IdAlat";
@@ -25,56 +23,6 @@ class _IdAlatState extends State<IdAlat> {
   void dispose() {
     _idAlatController.dispose();
     super.dispose();
-  }
-
-  Future<void> _authenticate() async {
-    final idAlat = _idAlatController.text;
-
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('IDAlat')
-          .where('email', isEqualTo: widget.email)
-          .where('value', isEqualTo: idAlat)
-          .get();
-
-      if (querySnapshot.size > 0) {
-        // ID Alat sesuai dengan yang terdaftar
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Sukses'),
-            content: const Text('ID Alat sesuai!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, HomePage.routeName);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      } else {
-        // ID Alat tidak sesuai
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Gagal'),
-            content: const Text('ID Alat tidak sesuai!'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
-    } catch (error) {
-      // Penanganan kesalahan
-      print('Error: $error');
-    }
   }
 
   @override
@@ -114,7 +62,9 @@ class _IdAlatState extends State<IdAlat> {
               height: 30.0,
             ),
             ElevatedButton(
-              onPressed: _authenticate,
+              onPressed: () async {
+                // Tambahkan logika yang diinginkan
+              },
               child: const Text('Hubungkan'),
             ),
             const SizedBox(
