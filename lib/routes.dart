@@ -6,9 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:bb/logo_app.dart';
 
 final Map<String, WidgetBuilder> routes = {
-  // SplashScreen.routeName: (context) => SplashScreen(),
   LogoApp.routeName: (context) => LogoApp(),
   LoginScreen.routeName: (context) => LoginScreen(),
-  IdAlat.routeName: (context) => IdAlat(),
+  IdAlat.routeName: (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final email = args['email'] as String;
+    return IdAlat(email: email);
+  },
   HomePage.routeName: (context) => HomePage(),
 };
