@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:bb/id_alat/auth_alat.dart';
+import 'package:bb/autentikasi/components/login.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key, required this.email}) : super(key: key);
