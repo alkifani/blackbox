@@ -33,8 +33,9 @@ class _IdAlatState extends State<IdAlat> {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('IDAlat')
-          .where('email', isEqualTo: widget.email)
-          .where('value', isEqualTo: idAlat)
+          /// .where('email', isEqualTo: widget.email)
+          .where('id', isEqualTo: idAlat)
+          .where('kondisi', isEqualTo: "")
           .get();
 
       if (querySnapshot.size > 0) {
@@ -47,6 +48,10 @@ class _IdAlatState extends State<IdAlat> {
             actions: [
               TextButton(
                 onPressed: () {
+                  querySnapshot.docs.forEach((doc) {
+                    doc.reference.update({'kondisi': '1'});
+                    doc.reference.update({'email': widget.email});
+                  });
                   Navigator.pop(context);
                   Navigator.pushNamed(context, HomePage.routeName);
                 },
@@ -80,6 +85,7 @@ class _IdAlatState extends State<IdAlat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(108, 108, 108, 1.0),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

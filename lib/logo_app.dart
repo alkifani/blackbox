@@ -23,6 +23,7 @@ class _LogoAppState extends State<LogoApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(108, 108, 108, 1.0),
       body: Container(
         // color: Color(0xFF6C6C6C),
         child: Center(
