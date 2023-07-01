@@ -104,6 +104,9 @@ class _IdAlatState extends State<IdAlat> {
             const Text(
               "Silahkan Masukkan ID Alat Black Box Anda \nYang Telah Terdata Pada Sistem!",
               textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
             const SizedBox(
               height: 30.0,
