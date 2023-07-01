@@ -3,7 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+<<<<<<< HEAD
 import 'package:bb/autentikasi/components/login.dart';
+=======
+import 'package:bb/autentikasi/login.dart';
+>>>>>>> main
 import 'package:bb/daftar_perjalanan/daftar_perjalanan.dart';
 
 class HomePage extends StatefulWidget {
