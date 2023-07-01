@@ -1,5 +1,7 @@
-import 'package:bb/autentikasi/components/login.dart';
+import 'package:bb/autentikasi/login.dart';
+import 'package:bb/bluetooth/konfigurasi_bluetooth.dart';
 import 'package:bb/id_alat/auth_alat.dart';
+import 'package:bb/menu_autentikasi.dart';
 import 'package:bb/menu_home/home_page.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,4 +16,6 @@ final Map<String, WidgetBuilder> routes = {
     return IdAlat(email: email);
   },
   HomePage.routeName: (context) => HomePage(),
+  MenuAutentikasi.routeName: (context) => MenuAutentikasi(),
+  KonfigurasiBluetooth.routeName: (context) => KonfigurasiBluetooth(),
 };

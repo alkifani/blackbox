@@ -1,8 +1,8 @@
 // import 'package:bb/autentikasi/auth_screen.dart';
-import 'package:bb/autentikasi/components/login.dart';
+import 'package:bb/autentikasi/login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:bb/routes.dart';
+import 'routes.dart';
 
 class LogoApp extends StatefulWidget {
   static const routeName = "/Logo_App";
