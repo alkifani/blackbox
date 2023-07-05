@@ -13,9 +13,9 @@ class BluetoothDeviceListEntry extends ListTile {
     onLongPress: onLongPress,
     enabled: enabled,
     leading:
-    Icon(Icons.devices), // @TODO . !BluetoothClass! class aware icon
-    title: Text(device.name ?? "Unknown device"),
-    subtitle: Text(device.address.toString()),
+    Icon(Icons.devices, color: Colors.white,), // @TODO . !BluetoothClass! class aware icon
+    title: Text(device.name ?? "Unknown device", style: TextStyle(color: Colors.white),),
+    subtitle: Text(device.address.toString(), style: TextStyle(color: Colors.white),),
     trailing: Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -35,10 +35,10 @@ class BluetoothDeviceListEntry extends ListTile {
         )
             : Container(width: 0, height: 0),
         device.isConnected
-            ? Icon(Icons.import_export)
+            ? Icon(Icons.import_export, color: Colors.white,)
             : Container(width: 0, height: 0),
         device.isBonded
-            ? Icon(Icons.link)
+            ? Icon(Icons.link, color: Colors.white,)
             : Container(width: 0, height: 0),
       ],
     ),

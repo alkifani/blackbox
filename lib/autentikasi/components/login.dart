@@ -4,14 +4,14 @@ import 'package:bb/autentikasi/components/auth_service.dart';
 import 'package:bb/autentikasi/components/home.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreenOld extends StatefulWidget {
   static const routeName = "/LoginScreen";
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginScreenOldState createState() => _LoginScreenOldState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenOldState extends State<LoginScreenOld> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 

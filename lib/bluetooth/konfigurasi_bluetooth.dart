@@ -75,48 +75,77 @@ class _KonfigurasiBluetoothState extends State<KonfigurasiBluetooth> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Koneksi Bluetooth'),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color.fromRGBO(0, 28, 48, 0.5),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change the color here
+          size: 30, // Change the size here
+        ),
       ),
       backgroundColor: Color.fromRGBO(23, 107, 135, 1),
       body: Container(
         child: ListView(
           children: <Widget>[
-            Divider(),
-            ListTile(title: const Text('General')),
             SwitchListTile(
-              title: const Text('Enable Bluetooth'),
+              title: const Text('Hidupkan Bluetooth', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),),
               value: _bluetoothState.isEnabled,
               onChanged: (bool value) {
                 _toggleBluetooth(value);
               },
             ),
             ListTile(
-              title: const Text('Bluetooth status'),
-              subtitle: Text(_bluetoothState.toString()),
+              title: const Text('Status Bluetooth', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),),
+              subtitle: Text(_bluetoothState.toString(), style: TextStyle(color: Colors.white),),
               trailing: ElevatedButton(
-                child: const Text('Settings'),
+                child: const Text('Settings', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14, color: Colors.black54),),
                 onPressed: () {
                   FlutterBluetoothSerial.instance.openSettings();
                 },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20), // Adjust the corner radius as desired
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromRGBO(218, 255, 251, 1), // Red color (RGB: 255, 0, 0)
+                  ),
+                ),
               ),
             ),
             ListTile(
-              title: const Text('Local adapter address'),
-              subtitle: Text(_address),
-            ),
-            ListTile(
-              title: const Text('Local adapter name'),
-              subtitle: Text(_name),
+              title: const Text('Nama Perangkat', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),),
+              subtitle: Text(_name, style: TextStyle(color: Colors.white),),
               onLongPress: null,
             ),
-            Divider(),
-            ListTile(title: const Text('Devices discovery and connection')),
             ListTile(
-              title: ElevatedButton(
-                child: const Text('Connect to paired device to chat'),
-                onPressed: () async {
-                  _startDeviceSelection();
-                },
+              title: const Text('Alamat Perangkat', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),),
+              subtitle: Text(_address, style: TextStyle(color: Colors.white),),
+            ),
+
+            SizedBox(
+              height: 55,
+            ),
+
+            SizedBox(
+              height: 61,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 6),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    _startDeviceSelection();
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20), // Adjust the corner radius as desired
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromRGBO(218, 255, 251, 1), // Red color (RGB: 255, 0, 0)
+                    ),
+                  ),
+                  child: const Text('SANDINGKAN BLUETOOTH DENGAN ALAT', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14, color: Colors.black54),),
+                ),
               ),
             ),
           ],

@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 75,
                 ),
                 Container(
-                  width: 165,
+                  width: 300,
                   height: 165,
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintStyle: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
-                      fillColor: Color.fromRGBO(217, 217, 217, 1),
+                      fillColor: Color.fromRGBO(218, 255, 251, 1),
                       filled: true,
                     ),
                   ),
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       hintText: 'KATA SANDI',
-                      fillColor: Color.fromRGBO(217, 217, 217, 1),
+                      fillColor: Color.fromRGBO(218, 255, 251, 1),
                       filled: true,
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:bb/bluetooth/ambil_data.dart';
 
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
@@ -110,7 +111,11 @@ class _ChatPage extends State<ChatPage> {
               ? 'Live chat with ${widget.server.name}'
               : 'Chat log with ${widget.server.name}',
         ),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color.fromRGBO(0, 28, 48, 0.5),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change the color here
+          size: 30, // Change the size here
+        ),
       ),
       backgroundColor: Color.fromRGBO(23, 107, 135, 1),
       body: SafeArea(
@@ -126,9 +131,14 @@ class _ChatPage extends State<ChatPage> {
             ),
             Center(
               child: ElevatedButton(
-                  onPressed: isConnected
-                      ? () => _sendMessage("Berhenti")
-                      : null, child: Text("Berhenti")
+                  onPressed: () {
+                    _sendMessage("Berhenti");
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>
+                          AmbilData(),
+                    ),);
+                  },
+                  child: Text("Berhenti")
               ),
             ),
             Center(
