@@ -7,7 +7,7 @@ class BluetoothDeviceListEntry extends ListTile {
     required int rssi,
     required GestureTapCallback onTap,
     required GestureLongPressCallback onLongPress,
-    bool enabled = true,
+    bool enabled = true, required ValueKey<String> key,
   }) : super(
     onTap: onTap,
     onLongPress: onLongPress,

@@ -107,6 +107,7 @@ class _SelectBondedDevicePageState extends State<SelectBondedDevicePage> {
   Widget build(BuildContext context) {
     List<BluetoothDeviceListEntry> list = devices
         .map((_device) => BluetoothDeviceListEntry(
+      key: ValueKey(_device.device.address), // Add ValueKey here
       device: _device.device,
       rssi: _device.rssi,
       enabled: _device.availability == _DeviceAvailability.yes,

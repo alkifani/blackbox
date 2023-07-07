@@ -1,0 +1,81 @@
+import 'dart:async';
+import 'package:csv/csv.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class AmbilData extends StatefulWidget {
+  static String routeName = "/ambil_data";
+
+  @override
+  State<AmbilData> createState() => _AmbilDataState();
+}
+
+class _AmbilDataState extends State<AmbilData> {
+  StreamController<List<List<dynamic>>> _dataStreamController =
+  StreamController<List<List<dynamic>>>();
+  Stream<List<List<dynamic>>> get _dataStream => _dataStreamController.stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCSV();
+  }
+
+  void _loadCSV() async {
+    final _rawData = await rootBundle.loadString("assets/csv/Trip1.csv");
+    List<List<dynamic>> _listData =
+    const CsvToListConverter().convert(_rawData);
+    _dataStreamController.add(_listData);
+  }
+
+  @override
+  void dispose() {
+    _dataStreamController.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Data"),
+      ),
+      body: StreamBuilder<List<List<dynamic>>>(
+        stream: _dataStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<List<dynamic>> _data = snapshot.data!;
+            return ListView.builder(
+              itemCount: _data.length,
+              itemBuilder: (_, index) {
+                return Card(
+                  margin: const EdgeInsets.all(3),
+                  color: index == 0 ? Colors.amber : Colors.white,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Text(_data[index][0].toString()),
+                        title: Text(_data[index][1].toString()),
+                        subtitle: Text(_data[index][2].toString()),
+                        trailing: Text(_data[index][3].toString()),
+                      ),
+                      Divider(
+                        height: 0,
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
