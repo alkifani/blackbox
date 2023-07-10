@@ -12,7 +12,7 @@ class AmbilData extends StatefulWidget {
 
 class _AmbilDataState extends State<AmbilData> {
   Future<List<List<dynamic>>> _loadCSV() async {
-    String csvData = await rootBundle.loadString("assets/csv/Trip1.csv");
+    String csvData = await rootBundle.loadString("/home/black-box/Data/Gemastik/Trip1.csv");
     List<List<dynamic>> csvTable = CsvToListConverter().convert(csvData);
     return csvTable;
   }

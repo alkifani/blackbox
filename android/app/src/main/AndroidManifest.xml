@@ -15,8 +15,11 @@
     <!-- Izin Bluetooth Scan -->
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
+    <!-- Izin Penyimpanan -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-            android:label="Black Box App"
+            android:label="INVERTING"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher">
         <activity

@@ -15,7 +15,7 @@ class _LogoAppState extends State<LogoApp> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     });
   }
@@ -23,7 +23,7 @@ class _LogoAppState extends State<LogoApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(108, 108, 108, 1.0),
+      backgroundColor: Color.fromRGBO(23, 107, 135, 1),
       body: Container(
         // color: Color(0xFF6C6C6C),
         child: Center(

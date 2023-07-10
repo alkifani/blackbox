@@ -1,5 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
-
+import 'package:flutter/services.dart'; // Import package for platform-specific operations
 import 'package:bb/autentikasi/auth_service.dart';
 import 'package:bb/autentikasi/home.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Home(email: _emailController.text),
                           ),
                         );
+                        // Clear the navigation history up to this point
+                        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                       }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

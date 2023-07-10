@@ -305,7 +305,7 @@ class _ChatPage extends State<ChatPage> {
                   hintText: isConnecting
                       ? 'Wait until connected...'
                       : isConnected
-                      ? 'Type your message...'
+                      ? 'Hubungkan atau Putuskan Koneksi'
                       : 'Chat got disconnected',
                   hintStyle: const TextStyle(color: Colors.grey),
                 ),
