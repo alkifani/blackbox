@@ -40,7 +40,7 @@ class _PerjumlahanDataState extends State<PerjumlahanData> {
                     ),
                   ),
                   Text(
-                    "1\nTRIP",
+                    "5\nTRIP",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
@@ -80,7 +80,7 @@ class _PerjumlahanDataState extends State<PerjumlahanData> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "5",
+                        "6",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:bb/menu_autentikasi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:bb/bluetooth/ambil_data.dart';
@@ -80,19 +81,7 @@ class _ChatPage extends State<ChatPage> {
     await Firebase.initializeApp();
   }
 
-  Future<void> mulaiState(String state) async {
-    final user = FirebaseAuth.instance.currentUser;
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('IDAlat')
-        .where('email', isEqualTo: user!.email)
-        .get();
 
-    querySnapshot.docs.forEach((doc) {
-      doc.reference.update({'mulai': state});
-    });
-  }
-
-<<<<<<< Updated upstream
   // void listenToMulaiValueChanges() {
   //   final user = FirebaseAuth.instance.currentUser;
   //   if (user != null) {
@@ -199,123 +188,6 @@ class _ChatPage extends State<ChatPage> {
   //     isSendingLocation = false;
   //   });
   // }
-=======
-  void listenToMulaiValueChanges() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      FirebaseFirestore.instance
-          .collection('IDAlat')
-          .where('email', isEqualTo: user.email)
-          .snapshots()
-          .listen((snapshot) {
-        try {
-          if (snapshot.size > 0) {
-            final document = snapshot.docs.first;
-            setState(() {
-              mulaiValue = document['mulai'] as String?;
-            });
-
-            // Start sending location data if mulaiValue is "1"
-            if (mulaiValue == '1') {
-              if (locationTimer == null || !locationTimer!.isActive) {
-                // Start the timer if not already running
-                locationTimer = Timer.periodic(Duration(seconds: 5), (_) {
-                  sendLocationDataToFirestore();
-                });
-              }
-              setState(() {
-                isSendingLocation = true;
-              });
-            } else {
-              if (locationTimer != null && locationTimer!.isActive) {
-                // Stop the timer if running
-                locationTimer!.cancel();
-              }
-              setState(() {
-                isSendingLocation = false;
-              });
-              stopSendingLocationDataToFirestore();
-            }
-          }
-        } catch (error) {
-          print('Error listening to mulai value changes: $error');
-        }
-      });
-    }
-  }
-
-  Future<void> sendLocationDataToFirestore() async {
-    final geolocator = GeolocatorPlatform.instance;
-
-    try {
-      // Check location permission
-      LocationPermission permission = await geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        // Permission denied, request permission from user
-        permission = await geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          // Permission not granted, show a dialog to the user
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Location Permission'),
-              content: const Text('Location permission not granted.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-          return;
-        }
-      }
-
-      // Get current location
-      Position? currentPosition = await geolocator.getCurrentPosition();
-
-      // Send location data to Firestore
-      if (currentPosition != null) {
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          final latitude = currentPosition.latitude;
-          final longitude = currentPosition.longitude;
-          final speedMS = currentPosition.speed; // Speed in meters per second
-          final speedKMH = (speedMS * 3.6).roundToDouble(); // Convert speed to km/h
-          final timestamp = DateTime.now();
-          final geoPoint = GeoPoint(latitude, longitude);
-          print(geoPoint);
-          final querySnapshot = await FirebaseFirestore.instance
-              .collection('IDAlat')
-              .where('email', isEqualTo: user!.email)
-              .get();
-
-          querySnapshot.docs.forEach((doc) {
-            doc.reference.update({'gpsperdetik': geoPoint});
-            doc.reference.update({'speed': speedKMH});
-            doc.reference.update({'timestamp': timestamp});
-          });
-
-          print('Location data sent successfully.');
-        }
-      } else {
-        print('Unable to get current location.');
-      }
-    } catch (error) {
-      // Error handling
-      print('Error sending location data: $error');
-    }
-  }
-
-
-  Future<void> stopSendingLocationDataToFirestore() async {
-    // Set the flag to stop sending location data
-    setState(() {
-      isSendingLocation = false;
-    });
-  }
->>>>>>> Stashed changes
 
   @override
   void dispose() {
@@ -356,6 +228,15 @@ class _ChatPage extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 30,),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MenuAutentikasi()),
+                  (Route<dynamic> route) => false,
+            );
+          },
+        ),
         title: Text(
           isConnecting
               ? 'Connecting chat to ${widget.server.name}...'
@@ -364,10 +245,6 @@ class _ChatPage extends State<ChatPage> {
               : 'Chat log with ${widget.server.name}',
         ),
         backgroundColor: Color.fromRGBO(0, 28, 48, 0.5),
-        iconTheme: IconThemeData(
-          color: Colors.white, // Change the color here
-          size: 30, // Change the size here
-        ),
       ),
       backgroundColor: Color.fromRGBO(23, 107, 135, 1),
       body: SafeArea(
@@ -407,10 +284,10 @@ class _ChatPage extends State<ChatPage> {
               child: ElevatedButton(
                   onPressed: () {
                     _sendMessage("Berhenti");
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) =>
-                          AmbilData(),
-                    ),);
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => AmbilData()),
+                          (Route<dynamic> route) => false,
+                    );
                   },
                   child: Text("Berhenti")
               ),
@@ -431,6 +308,7 @@ class _ChatPage extends State<ChatPage> {
                 enabled: isConnected,
               ),
             ),
+
           ],
         ),
       ),

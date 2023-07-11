@@ -1,6 +1,7 @@
 import 'package:bb/bluetooth/ambil_data.dart';
 import 'package:bb/menu_home/components/data_perjalanan.dart';
 import 'package:bb/menu_home/components/home_header.dart';
+import 'package:bb/menu_home/components/list_perjalanan.dart';
 import 'package:bb/menu_home/components/perjumlahan_data.dart';
 import 'package:bb/size_config.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class _BodyState extends State<Body> {
             const DataPerjalanan(),
             SizedBox(height: getProportionateScreenHeight(25)),
             const PerjumlahanData(),
+            SizedBox(height: getProportionateScreenHeight(25)),
+            const ListPerjalanan(),
           ],
         ),
       ),

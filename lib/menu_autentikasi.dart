@@ -269,7 +269,7 @@ class _MenuAutentikasiState extends State<MenuAutentikasi> {
                             (Route<dynamic> route) => false,
                       );
                       // Clear the navigation history up to this point
-                      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                      /// SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
