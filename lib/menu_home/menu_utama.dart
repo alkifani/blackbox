@@ -12,7 +12,8 @@ class HalamanUtama extends StatefulWidget {
 class _HalamanUtamaState extends State<HalamanUtama> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(23, 107, 135, 1),
       body: Body(),
     );
   }

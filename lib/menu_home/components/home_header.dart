@@ -19,12 +19,13 @@ class _HomeHeaderState extends State<HomeHeader> {
         children: [
           Text("Welcome ! \nTo INVERTING APP",
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: getProportionateScreenWidth(15),
               fontWeight: FontWeight.bold,),
           ),
           const Icon(
             Icons.menu_outlined,
+            color: Colors.white,
           ),
         ],
       ),

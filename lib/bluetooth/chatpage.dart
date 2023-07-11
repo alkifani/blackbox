@@ -49,7 +49,7 @@ class _ChatPage extends State<ChatPage> {
   void initState() {
     super.initState();
     initializeFirebase();
-    listenToMulaiValueChanges();
+    ///listenToMulaiValueChanges();
 
     BluetoothConnection.toAddress(widget.server.address).then((_connection) {
       print('Connected to the device');
@@ -91,112 +91,112 @@ class _ChatPage extends State<ChatPage> {
     });
   }
 
-  void listenToMulaiValueChanges() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      FirebaseFirestore.instance
-          .collection('IDAlat')
-          .where('email', isEqualTo: user.email)
-          .snapshots()
-          .listen((snapshot) {
-        try {
-          if (snapshot.size > 0) {
-            final document = snapshot.docs.first;
-            setState(() {
-              mulaiValue = document['mulai'] as String?;
-            });
+  // void listenToMulaiValueChanges() {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     FirebaseFirestore.instance
+  //         .collection('IDAlat')
+  //         .where('email', isEqualTo: user.email)
+  //         .snapshots()
+  //         .listen((snapshot) {
+  //       try {
+  //         if (snapshot.size > 0) {
+  //           final document = snapshot.docs.first;
+  //           setState(() {
+  //             mulaiValue = document['mulai'] as String?;
+  //           });
+  //
+  //           // Start sending location data if mulaiValue is "1"
+  //           if (mulaiValue == '1') {
+  //             sendLocationDataToFirestore();
+  //             setState(() {
+  //               isSendingLocation = true;
+  //             });
+  //           } else {
+  //             setState(() {
+  //               isSendingLocation = false;
+  //             });
+  //             stopSendingLocationDataToFirestore();
+  //           }
+  //         }
+  //       } catch (error) {
+  //         print('Error listening to mulai value changes: $error');
+  //       }
+  //     });
+  //   }
+  // }
 
-            // Start sending location data if mulaiValue is "1"
-            if (mulaiValue == '1') {
-              sendLocationDataToFirestore();
-              setState(() {
-                isSendingLocation = true;
-              });
-            } else {
-              setState(() {
-                isSendingLocation = false;
-              });
-              stopSendingLocationDataToFirestore();
-            }
-          }
-        } catch (error) {
-          print('Error listening to mulai value changes: $error');
-        }
-      });
-    }
-  }
-
-  Future<void> sendLocationDataToFirestore() async {
-    final geolocator = GeolocatorPlatform.instance;
-
-    try {
-      // Check location permission
-      LocationPermission permission = await geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        // Permission denied, request permission from user
-        permission = await geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          // Permission not granted, show a dialog to the user
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Location Permission'),
-              content: const Text('Location permission not granted.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-          return;
-        }
-      }
-
-      // Get current location
-      Position? currentPosition = await geolocator.getCurrentPosition();
-
-      // Send location data to Firestore
-      if (currentPosition != null) {
-        final user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          final latitude = currentPosition.latitude;
-          final longitude = currentPosition.longitude;
-          final speedMS = currentPosition.speed; // Speed in meters per second
-          final speedKMH = (speedMS * 3.6).roundToDouble(); // Convert speed to km/h
-          final timestamp = DateTime.now();
-          final geoPoint = GeoPoint(latitude, longitude);
-          print(geoPoint);
-          final querySnapshot = await FirebaseFirestore.instance
-              .collection('IDAlat')
-              .where('email', isEqualTo: user!.email)
-              .get();
-
-          querySnapshot.docs.forEach((doc) {
-            doc.reference.update({'gpsperdetik': geoPoint});
-            doc.reference.update({'speed': speedKMH});
-            doc.reference.update({'timestamp': timestamp});
-          });
-
-          print('Location data sent successfully.');
-        }
-      } else {
-        print('Unable to get current location.');
-      }
-    } catch (error) {
-      // Error handling
-      print('Error sending location data: $error');
-    }
-  }
-
-
-  Future<void> stopSendingLocationDataToFirestore() async {
-    // Set the flag to stop sending location data
-    setState(() {
-      isSendingLocation = false;
-    });
-  }
+  // Future<void> sendLocationDataToFirestore() async {
+  //   final geolocator = GeolocatorPlatform.instance;
+  //
+  //   try {
+  //     // Check location permission
+  //     LocationPermission permission = await geolocator.checkPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       // Permission denied, request permission from user
+  //       permission = await geolocator.requestPermission();
+  //       if (permission == LocationPermission.denied) {
+  //         // Permission not granted, show a dialog to the user
+  //         showDialog(
+  //           context: context,
+  //           builder: (context) => AlertDialog(
+  //             title: const Text('Location Permission'),
+  //             content: const Text('Location permission not granted.'),
+  //             actions: [
+  //               TextButton(
+  //                 onPressed: () => Navigator.pop(context),
+  //                 child: const Text('OK'),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //         return;
+  //       }
+  //     }
+  //
+  //     // Get current location
+  //     Position? currentPosition = await geolocator.getCurrentPosition();
+  //
+  //     // Send location data to Firestore
+  //     if (currentPosition != null) {
+  //       final user = FirebaseAuth.instance.currentUser;
+  //       if (user != null) {
+  //         final latitude = currentPosition.latitude;
+  //         final longitude = currentPosition.longitude;
+  //         final speedMS = currentPosition.speed; // Speed in meters per second
+  //         final speedKMH = (speedMS * 3.6).roundToDouble(); // Convert speed to km/h
+  //         final timestamp = DateTime.now();
+  //         final geoPoint = GeoPoint(latitude, longitude);
+  //         print(geoPoint);
+  //         final querySnapshot = await FirebaseFirestore.instance
+  //             .collection('IDAlat')
+  //             .where('email', isEqualTo: user!.email)
+  //             .get();
+  //
+  //         querySnapshot.docs.forEach((doc) {
+  //           doc.reference.update({'gpsperdetik': geoPoint});
+  //           doc.reference.update({'speed': speedKMH});
+  //           doc.reference.update({'timestamp': timestamp});
+  //         });
+  //
+  //         print('Location data sent successfully.');
+  //       }
+  //     } else {
+  //       print('Unable to get current location.');
+  //     }
+  //   } catch (error) {
+  //     // Error handling
+  //     print('Error sending location data: $error');
+  //   }
+  // }
+  //
+  //
+  // Future<void> stopSendingLocationDataToFirestore() async {
+  //   // Set the flag to stop sending location data
+  //   setState(() {
+  //     isSendingLocation = false;
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -255,27 +255,27 @@ class _ChatPage extends State<ChatPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (mulaiValue == '') {
-                    // Start functionality
-                    mulaiState("1");
-                    setState(() {
-                      isSendingLocation = true;
-                    });
-                  } else if (mulaiValue == '1') {
-                    // Stop functionality
-                    mulaiState("");
-                    setState(() {
-                      isSendingLocation = false;
-                    });
-                    stopSendingLocationDataToFirestore();
-                  }
-                },
-                child: Text(mulaiValue == '' ? 'Mulai GPS' : 'Stop GPS'),
-              ),
-            ),
+            // Center(
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       if (mulaiValue == '') {
+            //         // Start functionality
+            //         mulaiState("1");
+            //         setState(() {
+            //           isSendingLocation = true;
+            //         });
+            //       } else if (mulaiValue == '1') {
+            //         // Stop functionality
+            //         mulaiState("");
+            //         setState(() {
+            //           isSendingLocation = false;
+            //         });
+            //         stopSendingLocationDataToFirestore();
+            //       }
+            //     },
+            //     child: Text(mulaiValue == '' ? 'Mulai GPS' : 'Stop GPS'),
+            //   ),
+            // ),
 
             Center(
               child: ElevatedButton(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart'; // Import package for platform-specific operations
 import 'package:bb/menu_autentikasi.dart';
 import 'package:flutter/material.dart';
 // import 'package:bb/id_alat/auth_alat.dart';
@@ -30,8 +29,6 @@ class _HomeState extends State<Home> {
         MenuAutentikasi.routeName,
         arguments: {'email': widget.email},
       );
-      // Clear the navigation history up to this point
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     });
   }
 
@@ -41,7 +38,7 @@ class _HomeState extends State<Home> {
       // appBar: AppBar(
       //   title: const Text('Home'),
       // ),
-      backgroundColor: Color.fromRGBO(23, 107, 135, 1),
+      backgroundColor: const Color.fromRGBO(23, 107, 135, 1),
       body: Center(
         child: Text('Welcome ${widget.email} To INVERTING APP'),
       ),
