@@ -35,6 +35,7 @@ class _ChatPage extends State<ChatPage> {
 
   List<_Message> messages = <_Message>[];
   String _messageBuffer = '';
+  Timer? locationTimer;
 
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
@@ -91,6 +92,7 @@ class _ChatPage extends State<ChatPage> {
     });
   }
 
+<<<<<<< Updated upstream
   // void listenToMulaiValueChanges() {
   //   final user = FirebaseAuth.instance.currentUser;
   //   if (user != null) {
@@ -197,6 +199,123 @@ class _ChatPage extends State<ChatPage> {
   //     isSendingLocation = false;
   //   });
   // }
+=======
+  void listenToMulaiValueChanges() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      FirebaseFirestore.instance
+          .collection('IDAlat')
+          .where('email', isEqualTo: user.email)
+          .snapshots()
+          .listen((snapshot) {
+        try {
+          if (snapshot.size > 0) {
+            final document = snapshot.docs.first;
+            setState(() {
+              mulaiValue = document['mulai'] as String?;
+            });
+
+            // Start sending location data if mulaiValue is "1"
+            if (mulaiValue == '1') {
+              if (locationTimer == null || !locationTimer!.isActive) {
+                // Start the timer if not already running
+                locationTimer = Timer.periodic(Duration(seconds: 5), (_) {
+                  sendLocationDataToFirestore();
+                });
+              }
+              setState(() {
+                isSendingLocation = true;
+              });
+            } else {
+              if (locationTimer != null && locationTimer!.isActive) {
+                // Stop the timer if running
+                locationTimer!.cancel();
+              }
+              setState(() {
+                isSendingLocation = false;
+              });
+              stopSendingLocationDataToFirestore();
+            }
+          }
+        } catch (error) {
+          print('Error listening to mulai value changes: $error');
+        }
+      });
+    }
+  }
+
+  Future<void> sendLocationDataToFirestore() async {
+    final geolocator = GeolocatorPlatform.instance;
+
+    try {
+      // Check location permission
+      LocationPermission permission = await geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        // Permission denied, request permission from user
+        permission = await geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          // Permission not granted, show a dialog to the user
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Location Permission'),
+              content: const Text('Location permission not granted.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
+      }
+
+      // Get current location
+      Position? currentPosition = await geolocator.getCurrentPosition();
+
+      // Send location data to Firestore
+      if (currentPosition != null) {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          final latitude = currentPosition.latitude;
+          final longitude = currentPosition.longitude;
+          final speedMS = currentPosition.speed; // Speed in meters per second
+          final speedKMH = (speedMS * 3.6).roundToDouble(); // Convert speed to km/h
+          final timestamp = DateTime.now();
+          final geoPoint = GeoPoint(latitude, longitude);
+          print(geoPoint);
+          final querySnapshot = await FirebaseFirestore.instance
+              .collection('IDAlat')
+              .where('email', isEqualTo: user!.email)
+              .get();
+
+          querySnapshot.docs.forEach((doc) {
+            doc.reference.update({'gpsperdetik': geoPoint});
+            doc.reference.update({'speed': speedKMH});
+            doc.reference.update({'timestamp': timestamp});
+          });
+
+          print('Location data sent successfully.');
+        }
+      } else {
+        print('Unable to get current location.');
+      }
+    } catch (error) {
+      // Error handling
+      print('Error sending location data: $error');
+    }
+  }
+
+
+  Future<void> stopSendingLocationDataToFirestore() async {
+    // Set the flag to stop sending location data
+    setState(() {
+      isSendingLocation = false;
+    });
+  }
+>>>>>>> Stashed changes
 
   @override
   void dispose() {

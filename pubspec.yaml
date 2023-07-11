@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.18.1
   geolocator: ^9.0.2
   flutter_bluetooth_serial: ^0.4.0
+  flutter_blue: ^0.8.0
   csv: ^5.0.2
 
 #  location: ^4.3.0
